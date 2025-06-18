@@ -1,0 +1,46 @@
+# === Node dependencies ===
+node_modules/
+npm-debug.log*
+package-lock.json
+
+# === Environment variables ===
+.env
+.env.*.local
+
+# === Build artifacts ===
+dist/
+build/
+*.tsbuildinfo
+
+# === Logs ===
+logs/
+*.log
+yarn-debug.log*
+yarn-error.log*
+
+# === OS-specific ===
+.DS_Store
+Thumbs.db
+
+# === Editor config ===
+.vscode/
+.idea/
+*.swp
+
+# === Frontend ===
+frontend/node_modules
+frontend/dist
+
+# === Backend ===
+backend/node_modules
+backend/dist
+backend/build
+
+# === Coverage ===
+coverage/
+*.lcov
+
+# === Misc ===
+*.local
+*.bak
+*.old
