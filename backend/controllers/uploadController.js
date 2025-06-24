@@ -31,7 +31,16 @@ export const handleUpload = async (req, res) => {
       route.distance = await calculateDistance(route.points);
     }
 
-    res.json({ routes }); 
+    const totalDistances = {};
+
+    for (const route of routes) {
+      if(!totalDistances[route.driverName]) {
+        totalDistances[route.driverName] = 0;
+      }
+      totalDistances[route.driverName] += route.distance;
+    }
+
+    res.json({ routes, totalDistances }); 
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Something went wrong.' });
