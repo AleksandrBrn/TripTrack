@@ -1,49 +1,39 @@
 import parseExcel from '../parsers/ecxelParser.js';
-import calculateDistance from '../services/orsService.js';
+import calculateDistance from '../services/osrmServise.js';
 
-// Helper делит массив на чанки по N элементов
-function chunkArray(array, chunkSize) {
-  const chunks = [];
-  for (let i = 0; i < array.length; i += chunkSize) {
-    chunks.push(array.slice(i, i + chunkSize));
-  }
-  return chunks;
-}
 
-export const handleUpload = async (req, res) => {
-  try {
-    const parsedData = await parseExcel(req.file.path);
+export const handleUpload = async (req, res) => { 
+  try {const parsedData = await parseExcel(req.file.path);
 
-    const results = {};
+    const routeMap = new Map();
 
-    for (const [driverName, trips] of Object.entries(parsedData)) {
-      let coords = trips.map(point => [point.long, point.lat]);
-
-      // Пропускаем если меньше 2 точек — нет маршрута
-      if (coords.length < 2) continue;
-
-      // Делим на чанки по 50 в чанке из-за ограничений API
-      const chunks = chunkArray(coords, 50);
-
-      let totalDistance = 0;
-
-      for (const chunk of chunks) {
-        // Если кусок меньше 2 точек — пропускаем
-        if (chunk.length < 2) continue;
-        const distance = await calculateDistance(chunk);
-        totalDistance += distance;
+    for (const point of parsedData) {
+      const routeId = `${point.driverName}|${point.dateTime}`;
+      
+      if (!routeMap.has(routeId)) { 
+        routeMap.set(routeId, { 
+          routeId, 
+          driverName: point.driverName,
+          dateTime: point.dateTime,
+          placeName: point.placeName,
+          points: [],
+        });
       }
 
-      results[driverName] = {
-        totalDistanceMeters: totalDistance
-      };
+      routeMap.get(routeId).points.push({ 
+        long: point.long, 
+        lat: point.lat,
+      });
     }
 
-    res.json(results);
+  const routes = Array.from(routeMap.values());  
+    for (const route of routes) {
+      route.distance = await calculateDistance(route.points);
+    }
 
+    res.json({ routes }); 
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Something went wrong.' });
   }
 };
-

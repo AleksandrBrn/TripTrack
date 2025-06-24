@@ -10,7 +10,7 @@ const parseExcel = async (filePath) => {
     'ФИО исполнителя',
     'Широта',
     'Долгота',
-    'Время поступления отчета на сервер',
+    'Дата',
     'Наименование клиента/вывеска'
   ];
 
@@ -20,7 +20,7 @@ const parseExcel = async (filePath) => {
     headerMap[cell.value] = colNumber;
   });
 
-  const drivers = {};
+  const drivers = [];
 
   sheet.eachRow((row, rowNumber) => {
     if (rowNumber === 1) return; // пропускаем заголовки
@@ -33,8 +33,7 @@ const parseExcel = async (filePath) => {
 
     const point = { driverName, lat, long, dateTime, placeName };
 
-    if (!drivers[driverName]) drivers[driverName] = [];
-    drivers[driverName].push(point);
+    drivers.push(point);
   });
 
   return drivers;
