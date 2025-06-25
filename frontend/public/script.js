@@ -21,15 +21,68 @@ uploadBtn.onclick = async () => {
       method: 'POST',
       body: formData,
     });
-    const data = await res.json();
 
-    let html = '<table><tr><th>Сотрудник</th><th>Дистанция (м)</th></tr>';
-    for (const [driver, info] of Object.entries(data)) {
-      html += `<tr><td>${driver}</td><td>${info.totalDistanceMeters.toFixed(2)}</td></tr>`;
+    const { drivers, errors } = await res.json();
+
+    let html = '';
+
+    drivers.forEach(driver => {
+      html += `
+        <div class="accordion-item">
+          <button class="accordion-header">
+            ${driver.driverName} — ${driver.totalDistance.toFixed(2)} км
+          </button>
+          <div class="accordion-body">
+            <table>
+              <thead>
+                <tr>
+                  <th>Дата</th>
+                  <th>Дистанция (км)</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${driver.routes.map(route => `
+                  <tr>
+                    <td>${route.date}</td>
+                    <td>${route.distance.toFixed(2)}</td>
+                  </tr>
+                `).join('')}
+                <tr class="total-row">
+                  <td><strong>Итого</strong></td>
+                  <td><strong>${driver.totalDistance.toFixed(2)}</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    });
+
+    if (errors && errors.length) {
+      html += `
+        <div class="errors">
+          <h3>Ошибки</h3>
+          <ul>
+            ${errors.map(err => `
+              <li>
+                ${err['Имя водителя']} — ${err['Дата поездки']}: ${err['Ошибка']}
+              </li>
+            `).join('')}
+          </ul>
+        </div>
+      `;
     }
-    html += '</table>';
 
     resultsDiv.innerHTML = html;
+
+    // Аккордеон
+    document.querySelectorAll('.accordion-header').forEach(header => {
+      header.addEventListener('click', () => {
+        header.classList.toggle('active');
+        const body = header.nextElementSibling;
+        body.style.display = body.style.display === 'block' ? 'none' : 'block';
+      });
+    });
 
   } catch (err) {
     console.error(err);
@@ -38,4 +91,5 @@ uploadBtn.onclick = async () => {
     spinner.style.display = 'none';
   }
 };
+
 
