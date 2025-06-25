@@ -3,7 +3,7 @@ import ExcelJS from 'exceljs';
 // Локализация даты формат DD.MM.YYYY
 function formatDate(date) {
   const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // +1, потому что месяц 0-based
+  const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
   return `${day}.${month}.${year}`;
 }
@@ -39,13 +39,19 @@ const parseExcel = async (filePath) => {
 
     let date;
     if (typeof dateCell === 'object' && dateCell instanceof Date) {
-      date = formatDate(dateCell);
+      dateCell.setUTCHours(0, 0, 0, 0); 
+      date = formatDate(new Date(dateCell.getTime() + 24 * 60 * 60 * 1000));
+      //date = formatDate(new Date(dateCell.toISOString()));
     } else if (typeof dateCell === 'number') {
-      const excelEpoch = new Date(1899, 11, 30);
-      excelEpoch.setDate(excelEpoch.getDate() + dateCell);
+      const excelEpoch = new Date(0); // Начало Unix-эпохи (01.01.1970)
+      excelEpoch.setFullYear(1899, 11, 30); // 30.12.1899
+      excelEpoch.setDate(excelEpoch.getDate() + Math.floor(dateCell));
+      
+      //коррекция после високосного дня
+      if (dateCell >= 61) excelEpoch.setDate(excelEpoch.getDate() - 1);
+      
       date = formatDate(excelEpoch);
     } else {
-      // fallback
       date = dateCell;
     }
 
