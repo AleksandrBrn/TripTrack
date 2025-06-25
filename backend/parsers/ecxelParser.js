@@ -19,7 +19,7 @@ const parseExcel = async (filePath) => {
     headerMap[cell.value] = colNumber;
   });
 
-  const drivers = [];
+  const points = [];
 
   sheet.eachRow((row, rowNumber) => {
     if (rowNumber === 1) return; // пропускаем заголовки
@@ -27,14 +27,17 @@ const parseExcel = async (filePath) => {
     const driverName = row.getCell(headerMap[requiredCols[0]]).value;
     const lat = parseFloat(row.getCell(headerMap[requiredCols[1]]).value);
     const long = parseFloat(row.getCell(headerMap[requiredCols[2]]).value);
-    const tripDate = row.getCell(headerMap[requiredCols[3]]).value;
+    const dateTime = row.getCell(headerMap[requiredCols[3]]).value;
 
-    const point = { driverName, lat, long, tripDate };
+    const dateObj = new Date(dateTime);
+    const date = dateObj.toLocaleDateString('ru-RU');
 
-    drivers.push(point);
+    const point = { driverName, lat, long, date };
+
+    points.push(point);
   });
 
-  return drivers;
+  return points;
 };
 
 export default parseExcel;
