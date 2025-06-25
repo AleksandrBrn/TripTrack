@@ -11,7 +11,6 @@ const parseExcel = async (filePath) => {
     'Широта',
     'Долгота',
     'Дата',
-    'Наименование клиента/вывеска'
   ];
 
   //Составляем карту названий колонок -> номера колонок
@@ -28,10 +27,9 @@ const parseExcel = async (filePath) => {
     const driverName = row.getCell(headerMap[requiredCols[0]]).value;
     const lat = parseFloat(row.getCell(headerMap[requiredCols[1]]).value);
     const long = parseFloat(row.getCell(headerMap[requiredCols[2]]).value);
-    const dateTime = row.getCell(headerMap[requiredCols[3]]).value;
-    const placeName = row.getCell(headerMap[requiredCols[4]]).value;
+    const tripDate = row.getCell(headerMap[requiredCols[3]]).value;
 
-    const point = { driverName, lat, long, dateTime, placeName };
+    const point = { driverName, lat, long, tripDate };
 
     drivers.push(point);
   });

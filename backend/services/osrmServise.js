@@ -13,12 +13,14 @@ const osrmClient = axios.create({
     return retryCount * 3000;  
   }, retryCondition: error => { 
       return axiosRetry.isNetworkOrIdempotentRequestError(error) || 
-      (error.response && error.response.status === 503)},
+      (error.response && error.response.status === 503)
+    },
     }
   );
   
   const calculateDistance = async (coords) => { 
     if (!Array.isArray(coords) || coords.length < 2) { 
+      console.log(coords);
       throw new Error('Нужно минимум две координаты для маршрута.'); 
     } 
     try {  

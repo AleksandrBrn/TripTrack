@@ -35,6 +35,7 @@ frontend/dist
 backend/node_modules
 backend/dist
 backend/build
+backend/uploads
 
 # === Coverage ===
 coverage/
@@ -44,3 +45,6 @@ coverage/
 *.local
 *.bak
 *.old
+
+# === Other ===
+info.txt
