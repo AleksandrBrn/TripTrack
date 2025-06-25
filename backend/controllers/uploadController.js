@@ -1,4 +1,4 @@
-import parseExcel from '../parsers/ecxelParser.js';
+import parseExcel from '../parsers/excelParser.js';
 import calculateDistance from '../services/osrmServise.js';
 
 export const handleUpload = async (req, res) => {
