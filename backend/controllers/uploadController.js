@@ -12,6 +12,8 @@ export const handleUpload = async (req, res) => {
     const driversMap = new Map();
 
     for (const point of parsedData) {
+      if (!point.startTime) continue;
+
       const driverName = point.driverName;
       const date = point.date;
       const startTime = point.startTime;
@@ -43,13 +45,8 @@ export const handleUpload = async (req, res) => {
         for (const route of driver.routes) {
           if (route.points.length < 2) {
             route.distance = 0;
-            errors.push({
-              'Имя водителя': driver.driverName, 
-              'Дата поездки': route.date,
-              'Ошибка': 'указано менее 2 точек',
-            });
+            continue;
           } else {
-            console.log(route);
             sortPointsByTime(route.points);
             route.distance = await calculateDistance(route.points);
           }
