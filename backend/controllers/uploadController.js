@@ -1,6 +1,10 @@
 import parseExcel from '../parsers/excelParser.js';
 import calculateDistance from '../services/osrmServise.js';
 
+function sortPointsByTime (route) {
+  return route.sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
+};
+
 export const handleUpload = async (req, res) => {
   try {
     const parsedData = await parseExcel(req.file.path);
@@ -10,6 +14,7 @@ export const handleUpload = async (req, res) => {
     for (const point of parsedData) {
       const driverName = point.driverName;
       const date = point.date;
+      const startTime = point.startTime;
 
       if (!driversMap.has(driverName)) {
         driversMap.set(driverName, {
@@ -28,6 +33,7 @@ export const handleUpload = async (req, res) => {
       route.points.push({
         long: point.long,
         lat: point.lat,
+        startTime,
       });
     }
 
@@ -43,10 +49,11 @@ export const handleUpload = async (req, res) => {
               'Ошибка': 'указано менее 2 точек',
             });
           } else {
+            console.log(route);
+            sortPointsByTime(route.points);
             route.distance = await calculateDistance(route.points);
           }
           driver.totalDistance += route.distance; 
-          delete route.points;
           }
         }
     res.json({ drivers, errors });

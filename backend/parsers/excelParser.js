@@ -19,6 +19,7 @@ const parseExcel = async (filePath) => {
     'Широта',
     'Долгота',
     'Дата',
+    'Начало работы',
   ];
 
   // Составляем карту: название -> колонка
@@ -36,6 +37,7 @@ const parseExcel = async (filePath) => {
     const lat = parseFloat(row.getCell(headerMap[requiredCols[1]]).value);
     const long = parseFloat(row.getCell(headerMap[requiredCols[2]]).value);
     const dateCell = row.getCell(headerMap[requiredCols[3]]).value;
+    const startTime = row.getCell(headerMap[requiredCols[4]]).value;
 
     let date;
     if (typeof dateCell === 'object' && dateCell instanceof Date) {
@@ -55,7 +57,7 @@ const parseExcel = async (filePath) => {
       date = dateCell;
     }
 
-    points.push({ driverName, lat, long, date });
+    points.push({ driverName, lat, long, date, startTime });
   });
 
   return points;
