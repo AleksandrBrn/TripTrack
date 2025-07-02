@@ -40,7 +40,7 @@ export const handleUpload = async (req, res) => {
     }
 
       const drivers = Array.from(driversMap.values());
-      
+      let geometry;
       for (const driver of drivers) {
         for (const route of driver.routes) {
           if (route.points.length < 2) {
@@ -48,12 +48,15 @@ export const handleUpload = async (req, res) => {
             continue;
           } else {
             sortPointsByTime(route.points);
-            route.distance = await calculateDistance(route.points);
+            const data = await calculateDistance(route.points);
+            route.distance = data.routes?.[0]?.distance / 1000; //дистанция в км
+            geometry = data?.routes[0]?.geometry; //GeoJSON маршрута
+            
           }
           driver.totalDistance += route.distance; 
           }
         }
-    res.json({ drivers, errors });
+    res.json({ drivers, errors, geometry });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Что-то пошло не так.' });

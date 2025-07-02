@@ -20,20 +20,14 @@ const osrmClient = axios.create({
   
   const calculateDistance = async (coords) => { 
     if (!Array.isArray(coords) || coords.length < 2) { 
-      console.log(coords);
       throw new Error('Нужно минимум две координаты для маршрута.'); 
     } 
     try {  
       const coordsUrl = coords.map((point) => `${point.long},${point.lat}`).join(';'); 
       
-      const { data } = await osrmClient.get(`${coordsUrl}?overview=false`); 
- 
-      const distance = data.routes?.[0]?.distance; 
-      if (typeof distance !== 'number') { 
-        throw new Error('OSRM не вернул расстояние.'); 
-      } 
-      //дистанция возвращается в км
-      return distance / 1000; 
+      const { data } = await osrmClient.get(`${coordsUrl}?geometries=geojson&overview=full`); 
+      
+      return data; 
     } catch (error) { 
       console.error('Ошибка в OSRM-сервисе:', error.message); 
       return 0;   
