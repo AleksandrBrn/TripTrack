@@ -1,0 +1,27 @@
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import Home from './pages/HomePage';
+import './App.css'
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#007AFF',
+    },
+  },
+  text: {
+    primary: '#1A1A1A',
+  },
+  typography: {
+    fontFamily: 'Inter, sans-serif',
+  },
+});
+
+function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <Home />
+    </ThemeProvider>
+  )
+}
+
+export default App
