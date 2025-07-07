@@ -1,6 +1,7 @@
 {
   "name": "triptrack-backend",
   "version": "1.0.0",
+  "type": "module",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
@@ -13,6 +14,5 @@
     "exceljs": "^4.4.0",
     "express": "^5.1.0",
     "multer": "^2.0.1"
-  },
-  "type": "module"
+  }
 }

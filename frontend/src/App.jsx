@@ -1,6 +1,6 @@
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import './App.css';
 import Home from './pages/HomePage';
-import './App.css'
 
 const theme = createTheme({
   palette: {
@@ -21,7 +21,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Home />
     </ThemeProvider>
-  )
+  );
 }
 
-export default App
+export default App;

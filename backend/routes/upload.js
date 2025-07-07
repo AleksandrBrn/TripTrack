@@ -8,4 +8,3 @@ const upload = multer({ dest: 'uploads/' });
 router.post('/', upload.single('file'), handleUpload);
 
 export default router;
-

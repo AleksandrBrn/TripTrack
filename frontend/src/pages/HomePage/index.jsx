@@ -1,9 +1,11 @@
-import { UploadForm } from '../../modules/excel-upload/components/UploadForm';
+import { DriversListFeature } from '../../modules/drivers-list';
+import { UploadFeature } from '../../modules/trip-session';
 
 export default function Home() {
   return (
-  <div>
-    <UploadForm />
-  </div>
+    <div>
+      <UploadFeature />
+      <DriversListFeature />
+    </div>
   );
-};
+}

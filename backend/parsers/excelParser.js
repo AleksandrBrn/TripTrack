@@ -14,13 +14,7 @@ const parseExcel = async (filePath) => {
 
   const sheet = workbook.getWorksheet('TIMINGS');
 
-  const requiredCols = [
-    'ФИО исполнителя',
-    'Широта',
-    'Долгота',
-    'Дата',
-    'Начало работы',
-  ];
+  const requiredCols = ['ФИО исполнителя', 'Широта', 'Долгота', 'Дата', 'Начало работы'];
 
   // Составляем карту: название -> колонка
   const headerMap = {};
@@ -41,17 +35,17 @@ const parseExcel = async (filePath) => {
 
     let date;
     if (typeof dateCell === 'object' && dateCell instanceof Date) {
-      dateCell.setUTCHours(0, 0, 0, 0); 
+      dateCell.setUTCHours(0, 0, 0, 0);
       date = formatDate(new Date(dateCell.getTime() + 24 * 60 * 60 * 1000));
       //date = formatDate(new Date(dateCell.toISOString()));
     } else if (typeof dateCell === 'number') {
       const excelEpoch = new Date(0); // Начало Unix-эпохи (01.01.1970)
       excelEpoch.setFullYear(1899, 11, 30); // 30.12.1899
       excelEpoch.setDate(excelEpoch.getDate() + Math.floor(dateCell));
-      
+
       //коррекция после високосного дня
       if (dateCell >= 61) excelEpoch.setDate(excelEpoch.getDate() - 1);
-      
+
       date = formatDate(excelEpoch);
     } else {
       date = dateCell;
@@ -63,7 +57,4 @@ const parseExcel = async (filePath) => {
   return points;
 };
 
-
-
 export default parseExcel;
-
