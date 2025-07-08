@@ -4,6 +4,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
+import path from 'path';
 
 export default defineConfig([
   globalIgnores(['dist', 'node_modules']),
@@ -50,6 +51,14 @@ export default defineConfig([
           noSortAlphabetically: false,
         },
       ],
+    },
+    settings: {
+      'import/resolver': {
+        alias: {
+          map: [['@', path.resplve(__dirname, 'src')]],
+          extensions: ['.js', '.jsx', '.json'],
+        },
+      },
     },
   },
 

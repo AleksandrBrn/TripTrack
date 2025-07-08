@@ -1,5 +1,5 @@
-import DefaultButton from '../../../ui/DefaultButton';
-import UploadFileInput from '../../../ui/UploadFileInput';
+import DefaultButton from '@/ui/DefaultButton';
+import UploadFileInput from '@/ui/UploadFileInput';
 import './UploadForm.css';
 
 export const UploadForm = ({ onUpload, onChange, isLoading }) => {
@@ -8,5 +8,5 @@ export const UploadForm = ({ onUpload, onChange, isLoading }) => {
       <UploadFileInput text={'загрузить'} onChange={onChange} />
       <DefaultButton text={'рассчитать'} onClick={onUpload} isDisabled={isLoading}></DefaultButton>
     </div>
-  );
-};
+  ); 
+}; 
