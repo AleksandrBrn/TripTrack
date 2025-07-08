@@ -40,7 +40,6 @@ export const handleUpload = async (req, res) => {
     }
 
     const drivers = Array.from(driversMap.values());
-    let geometry;
     for (const driver of drivers) {
       for (const route of driver.routes) {
         if (route.points.length < 2) {
