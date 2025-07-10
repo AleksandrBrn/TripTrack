@@ -1,8 +1,18 @@
-import { Button } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 
-export default function DefaultButton({ id, text, onClick, isDisabled, variant = 'contained' }) {
+export default function DefaultButton({ 
+  id, text, onClick, isDisabled, isLoading, variant = 'contained' 
+}) {
   return (
-    <Button id={id} variant={variant} color="primary" onClick={onClick} disabled={isDisabled}>
+    <Button
+      sx={{m: 2}} 
+      id={id} 
+      variant={variant} 
+      color="primary" 
+      onClick={onClick} 
+      disabled={isDisabled}
+      startIcon={isLoading ? <CircularProgress size={20} color='inherit' /> : null}
+      >
       {text}
     </Button>
   );

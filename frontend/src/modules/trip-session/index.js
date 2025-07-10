@@ -1,2 +1,2 @@
-export { useUploadedData } from './hooks/hooks';
-export { UploadFeature } from './UploadFeature';
+export { useLoadingData, useUploadedData } from './hooks/hooks';
+export { UploadTripsFeature } from './UploadTripsFeature';

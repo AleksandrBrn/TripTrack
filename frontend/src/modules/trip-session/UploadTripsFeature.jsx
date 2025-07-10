@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { uploadExcelFile } from './api/api';
 import { UploadForm } from './components/UploadForm';
-import { useSetUploadedData } from './hooks/hooks';
+import { useSetUploadedData, useLoadingData, useSetLoadingData } from './hooks/hooks';
 
-export function UploadFeature() {
+export function UploadTripsFeature() {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const setData = useSetUploadedData();
+  const isLoading = useLoadingData();
+  const setIsLoading = useSetLoadingData();
 
   const handleUpload = async () => {
     setIsLoading(true);
@@ -15,7 +16,6 @@ export function UploadFeature() {
       if (selectedFile) {
         const result = await uploadExcelFile(selectedFile);
         if (result) setData(result);
-        console.log(result);
       }
     } catch (error) {
       console.log('ошибка при обработке файла', error);
@@ -27,11 +27,15 @@ export function UploadFeature() {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    console.log('file changing');
     if (file) {
       setSelectedFile(file);
     }
   };
 
-  return <UploadForm onUpload={handleUpload} onChange={handleFileChange} isLoading={isLoading} />;
+  return <UploadForm 
+            onUpload={handleUpload} 
+            onChange={handleFileChange}
+            isDisabled={isLoading || !selectedFile} 
+            isLoading={isLoading} 
+          />;
 }
