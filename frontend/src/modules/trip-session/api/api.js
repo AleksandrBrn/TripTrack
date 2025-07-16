@@ -15,3 +15,12 @@ export const uploadExcelFile = async (file) => {
     console.error('Ошибка при загрузке файла', error);
   }
 };
+
+export const calculateRoutes = async (drivers) => {
+  try {
+    const res = await apiClient.post('routes/calculate', drivers);
+    return res.data;
+  } catch (error) {
+    console.error('Ошибка при отправке маршрутов на сервер', error);
+  }
+};

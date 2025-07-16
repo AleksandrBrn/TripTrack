@@ -2,18 +2,17 @@ import { useState } from 'react';
 import { Box, List, ListItemButton, ListItemText, Typography, IconButton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
-import { useUploadedData } from '@/modules/trip-session';
+import { useDrivers } from '@/modules/trip-session';
 import { useSetSelectedRoute, useResetSelectedRoute } from '@/modules/map';
 
 export function DriversListFeature() {
-  const raw = useUploadedData();
+  const drivers = useDrivers();
   const setSelectedRoute = useSetSelectedRoute();
   const resetSelectedRoute = useResetSelectedRoute();
   const [selectedDriver, setSelectedDriver] = useState(null);
 
-  if (!raw?.drivers?.length) return null;
+  if (!drivers) return null;
 
-  const drivers = raw.drivers;
 
   const onRouteClickHandler = (geometry) => {
     resetSelectedRoute();

@@ -3,12 +3,14 @@ dotenv.config();
 
 import cors from 'cors';
 import express from 'express';
-import uploadRoutes from './routes/upload-routes.js';
+import routes from './routes/routes.js';
 
 const app = express();
 
 app.use(cors());
-app.use('/routes/upload', uploadRoutes);
+app.use(express.json());
+// app.use('/routes/upload', uploadRoutes);
+app.use('/routes/calculate', routes);
 
 const PORT = process.env.PORT || 5000;
 

@@ -48,7 +48,7 @@ export default function HomePage() {
           zIndex: 100,
         }}
       >
-        <MapViewer />
+        {/* <MapViewer /> */}
       </Box>
     </Box>
   );

@@ -11,3 +11,17 @@ export const useDriversListLoadingStore = create((set) => ({
   setData: (data) => set({ data }),
   reset: () => set({ data: null }),
 }));
+
+export const useDriversStore = create((set, get) => ({
+  data: null,
+  setData: (data) => set({ data }),
+  updateData: (data) => {
+    const currentState = get().data;
+    const newState = currentState.map((item) => {
+      const driver = data.find((driver) => driver.id === item.id);
+      return { ...item, ...driver };
+    });
+    set(newState);
+  },
+  reset: () => set({ data: null }),
+}));
