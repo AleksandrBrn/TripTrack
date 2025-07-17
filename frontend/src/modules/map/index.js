@@ -1,2 +1,2 @@
-export { useResetSelectedRoute, useSetSelectedRoute } from './hooks/hooks';
+export { useOpen, useResetSelectedRoute, useSetOpen, useSetSelectedRoute } from './hooks/hooks';
 export { MapViewer } from './MapFeature';

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Box, List, ListItemButton, ListItemText, Typography, IconButton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import AltRouteIcon from '@mui/icons-material/AltRoute';
+import RouteIcon from '@mui/icons-material/Route';
 import { useDrivers } from '@/modules/trip-session';
 import { useSetSelectedRoute, useResetSelectedRoute } from '@/modules/map';
 
-export function DriversListFeature() {
+export function DriversListFeature({ onClick }) {
   const drivers = useDrivers();
   const setSelectedRoute = useSetSelectedRoute();
   const resetSelectedRoute = useResetSelectedRoute();
@@ -17,6 +17,7 @@ export function DriversListFeature() {
   const onRouteClickHandler = (geometry) => {
     resetSelectedRoute();
     setSelectedRoute(geometry);
+    onClick();
   };
 
   return (
@@ -46,6 +47,9 @@ export function DriversListFeature() {
             <Typography variant="h6" gutterBottom>
               ФИО: {selectedDriver.driverName}
             </Typography>
+            <Typography variant="h6" gutterBottom>
+              Общая дистанция: {selectedDriver.totalDistance.toFixed(2)}
+            </Typography>
             <DataGrid
               rows={selectedDriver.routes.map((route) => ({
                 id: `${selectedDriver.driverName}|${route.date}`,
@@ -68,7 +72,7 @@ export function DriversListFeature() {
                         onRouteClickHandler(params.row.geoJSON);
                       }}
                     >
-                      <AltRouteIcon />
+                      <RouteIcon />
                     </IconButton>
                   ),
                 },
@@ -77,9 +81,6 @@ export function DriversListFeature() {
               rowsPerPageOptions={[10]}
               disableSelectionOnClick
             />
-            <Typography sx={{ mt: 2, fontWeight: 'bold' }}>
-              Общая дистанция: {selectedDriver.totalDistance.toFixed(2)} км
-            </Typography>
           </>
         ) : (
           <Typography sx={{ mt: 2 }}>Выберите водителя слева</Typography>

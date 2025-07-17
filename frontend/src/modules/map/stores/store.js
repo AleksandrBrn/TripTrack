@@ -5,3 +5,9 @@ export const useSelectedRouteState = create((set) => ({
   setData: (data) => set({ data }),
   reset: () => set({ data: null }),
 }));
+
+export const useOpenState = create((set) => ({
+  data: false,
+  setData: (data) => set({ data }),
+  reset: () => set({ data: null }),
+}));

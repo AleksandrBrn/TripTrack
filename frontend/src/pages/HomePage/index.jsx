@@ -1,22 +1,26 @@
 import { Box } from '@mui/material';
 import { UploadTripsFeature } from '@/modules/trip-session';
 import { DriversListFeature } from '@/modules/drivers-list';
-import { MapViewer } from '@/modules/map';
+import { MapViewer, useSetOpen } from '@/modules/map';
+import { ReportFeature } from '@/modules/report';
 
 export default function HomePage() {
+  const setOpenMap = useSetOpen();
+
   return (
     <Box sx={{
       position: 'relative', 
       display: 'flex',
       mx: 'auto',
       my: 0,
-      maxWidth: 1200,  
+      maxWidth: 1600,  
       flexDirection: 'column', 
       minHeight: '100vh' 
     }}>
       {/* Загрузка файла */}
-      <Box sx={{ p: 2 }}>
+      <Box sx={{ display: 'flex', p: 2 }}>
         <UploadTripsFeature />
+        <ReportFeature />
       </Box>
 
       {/* Таблица + список водителей */}
@@ -30,13 +34,13 @@ export default function HomePage() {
       >
         <Box sx={{ display: 'flex', gap: 2 }}>
           <Box sx={{ width: '100%' }}>
-            <DriversListFeature />
+            <DriversListFeature onClick={() => setOpenMap(true)} />
           </Box>
         </Box>
       </Box>
 
       {/* Фиксированная карта */}
-      <Box
+      {/* <Box
         sx={{
           position: 'fixed',
           bottom: 0,
@@ -48,8 +52,9 @@ export default function HomePage() {
           zIndex: 100,
         }}
       >
-        {/* <MapViewer /> */}
-      </Box>
+        <MapViewer />
+      </Box> */}
+      <MapViewer />
     </Box>
   );
 }
