@@ -29,7 +29,8 @@ const parseExcel = async (buffer) => {
     let date;
     if (typeof dateCell === 'object' && dateCell instanceof Date) {
       dateCell.setUTCHours(0, 0, 0, 0);
-      date = localizationDate(new Date(dateCell.getTime() + 24 * 60 * 60 * 1000));
+      //date = localizationDate(new Date(dateCell.getTime() + 24 * 60 * 60 * 1000));
+      date = localizationDate(new Date(dateCell.getTime()));
     } else if (typeof dateCell === 'number') {
       const excelEpoch = new Date(0); // Начало Unix-эпохи (01.01.1970)
       excelEpoch.setFullYear(1899, 11, 30); // 30.12.1899
