@@ -1,6 +1,7 @@
 import { useOpenState, useSelectedRouteState } from '../stores/store';
 
-export const useSelectedRoute = () => useSelectedRouteState((state) => state.data);
+export const useSelectedGeojson = () => useSelectedRouteState((state) => state.geojson);
+export const useSelectedPoints = () => useSelectedRouteState((state) => state.points);
 export const useSetSelectedRoute = () => useSelectedRouteState((state) => state.setData);
 export const useResetSelectedRoute = () => useSelectedRouteState((state) => state.reset);
 

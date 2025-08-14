@@ -14,9 +14,9 @@ export function DriversListFeature({ onClick }) {
   if (!drivers) return null;
 
 
-  const onRouteClickHandler = (geometry) => {
+  const onRouteClickHandler = (geometry, points) => {
     resetSelectedRoute();
-    setSelectedRoute(geometry);
+    setSelectedRoute({ geojson: geometry, points });
     onClick();
   };
 
@@ -55,7 +55,8 @@ export function DriversListFeature({ onClick }) {
                 id: `${selectedDriver.driverName}|${route.date}`,
                 date: route.date,
                 distance: route.distance.toFixed(2),
-                geoJSON: route.geometry
+                geoJSON: route.geometry,
+                points: route.points,
               }))}
               columns={[
                 { field: 'date', headerName: 'Дата', width: 130 },
@@ -69,7 +70,7 @@ export function DriversListFeature({ onClick }) {
                     <IconButton
                       color="primary"
                       onClick={() => {
-                        onRouteClickHandler(params.row.geoJSON);
+                        onRouteClickHandler(params.row.geoJSON, params.row.points);
                       }}
                     >
                       <RouteIcon />
