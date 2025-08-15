@@ -6,6 +6,7 @@ export const uploadExcelFile = async (file) => {
 
   try {
     const res = await apiClient.post('/routes/upload', formData, {
+      maxBodyLength: Infinity,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
